@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EasyMoney Universal</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<!-- Monetag Push + OnClick - Zone 11870662 -->
+<script>
+(function(s){
+  s.dataset.zone='11870662';
+    s.src='https://al5sm.com/tag.min.js';
+    })([document.documentElement, document.head].filter(Boolean).pop().appendChild(document.createElement('script')))
+    </script>
+
+    <style>
+    body{font-family:sans-serif;background:#f0f9ff;padding:15px;text-align:center}
+    .card{background:white;padding:20px;border-radius:16px;max-width:420px;margin:auto;box-shadow:0 8px 20px rgba(0,0,0,0.08)}
+    button{background:#0ea5e9;color:white;border:none;padding:13px 20px;border-radius:10px;width:100%;margin-top:10px;font-weight:bold;cursor:pointer;font-size:15px}
+    input{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd;border-radius:10px;box-sizing:border-box}
+    </style>
+    </head>
+    <body>
+
+    <div class="card" id="authBox">
+      <h2>EasyMoney Universal</h2>
+        <p>Earn ₦20 per ad view</p>
+          <input id="email" placeholder="Email">
+            <input id="pass" type="password" placeholder="Password">
+              <button onclick="signup()">Create Account</button>
+                <button onclick="login()" style="background:#334155">Login</button>
+                  <p id="refInfo" style="color:green;font-weight:bold"></p>
+                  </div>
+
+                  <div class="card" id="dashBox" style="display:none">
+                    <h3 id="userEmail"></h3>
+                      <h1 style="font-size:42px;margin:10px 0">₦<span id="bal">0</span></h1>
+                        <p>Your Balance</p>
+                          <button onclick="earn()" style="background:#0ea5e9;height:55px;font-size:18px">▶ WATCH AD & EARN ₦20</button>
+                            <div style="background:#f1f5f9;padding:12px;border-radius:10px;margin-top:15px;text-align:left">
+                                <p style="margin:0;font-size:13px">Your Referral Link (Earn ₦100 per referral):</p>
+                                    <input id="refLink" readonly>
+                                        <button onclick="copyRef()" style="background:#22c55e">Copy Referral Link</button>
+                                          </div>
+                                            <hr style="margin:20px 0">
+                                              <input id="withdrawAmount" type="number" placeholder="Amount e.g 1000">
+                                                <input id="bankDetails" placeholder="Bank Name - Account Number">
+                                                  <button onclick="withdraw()" style="background:#16a34a">Request Withdrawal</button>
+                                                    <button onclick="logout()" style="background:#ef4444;margin-top:20px">Logout</button>
+                                                    </div>
+
+                                                    <script>
+                                                    const firebaseConfig = {
+                                                      apiKey: "AIzaSyDq7LvCLFO60CQ9wKqyWrFJQLh7PLnLLJU",
+                                                        authDomain: "easymoney-universal.firebaseapp.com",
+                                                          projectId: "easymoney-universal",
+                                                            storageBucket: "easymoney-universal.firebasestorage.app",
+                                                              messagingSenderId: "230610778507",
+                                                                appId: "1:230610778507:web:a428bce62290d2c5ea178e",
+                                                                  measurementId: "G-HJ75VXCNH8"
+                                                                  };
+                                                                  firebase.initializeApp(firebaseConfig);
+                                                                  const auth = firebase.auth();
+                                                                  const db = firebase.firestore();
+
+                                                                  const urlParams = new URLSearchParams(window.location.search);
+                                                                  const refCode = urlParams.get('ref');
+                                                                  if(refCode){ document.getElementById('refInfo').innerText = "You were referred! You get bonus after signup"; }
+
+                                                                  function signup(){
+                                                                    auth.createUserWithEmailAndPassword(email.value, pass.value).then(async cred=>{
+                                                                        await db.collection('users').doc(cred.user.uid).set({
+                                                                              email: cred.user.email,
+                                                                                    balance: 0,
+                                                                                          referredBy: refCode || null,
+                                                                                                createdAt: Date.now()
+                                                                                                    });
+                                                                                                        if(refCode){
+                                                                                                              // Give referrer ₦100 bonus
+                                                                                                                    await db.collection('users').doc(refCode).update({
+                                                                                                                            balance: firebase.firestore.FieldValue.increment(100)
+                                                                                                                                  });
+                                                                                                                                      }
+                                                                                                                                        }).catch(e=>alert(e.message));
+                                                                                                                                        }
+                                                                                                                                        function login(){ auth.signInWithEmailAndPassword(email.value, pass.value).catch(e=>alert(e.message)); }
+
+                                                                                                                                        auth.onAuthStateChanged(user=>{
+                                                                                                                                          if(user){
+                                                                                                                                              authBox.style.display='none'; dashBox.style.display='block';
+                                                                                                                                                  userEmail.innerText=user.email;
+                                                                                                                                                      refLink.value = window.location.origin + window.location.pathname + "?ref=" + user.uid;
+                                                                                                                                                          db.collection('users').doc(user.uid).onSnapshot(doc=>{
+                                                                                                                                                                if(doc.exists) bal.innerText = doc.data().balance || 0;
+                                                                                                                                                                    });
+                                                                                                                                                                      }else{
+                                                                                                                                                                          authBox.style.display='block'; dashBox.style.display='none';
+                                                                                                                                                                            }
+                                                                                                                                                                            });
+
+                                                                                                                                                                            function earn(){
+                                                                                                                                                                              window.open('https://fpyf8.com/act/files/11870662/go?','_blank');
+                                                                                                                                                                                const user = auth.currentUser;
+                                                                                                                                                                                  if(!user) return;
+                                                                                                                                                                                    db.collection('users').doc(user.uid).update({
+                                                                                                                                                                                        balance: firebase.firestore.FieldValue.increment(20)
+                                                                                                                                                                                          });
+                                                                                                                                                                                          }
+                                                                                                                                                                                          function copyRef(){ navigator.clipboard.writeText(refLink.value); alert("Referral link copied!"); }
+                                                                                                                                                                                          function withdraw(){
+                                                                                                                                                                                            const amt = parseInt(withdrawAmount.value);
+                                                                                                                                                                                              if(!amt || amt < 500) return alert("Minimum withdrawal is ₦500");
+                                                                                                                                                                                                db.collection('withdrawals').add({
+                                                                                                                                                                                                    uid: auth.currentUser.uid,
+                                                                                                                                                                                                        email: auth.currentUser.email,
+                                                                                                                                                                                                            amount: amt,
+                                                                                                                                                                                                                bank: document.getElementById('bankDetails').value,
+                                                                                                                                                                                                                    status: "pending",
+                                                                                                                                                                                                                        time: Date.now()
+                                                                                                                                                                                                                          }).then(()=>alert("Withdrawal request sent! We will pay within 24hrs"));
+                                                                                                                                                                                                                          }
+                                                                                                                                                                                                                          function logout(){ auth.signOut(); }
+                                                                                                                                                                                                                          </script>
+                                                                                                                                                                                                                          </body>
+                                                                                                                                                                                                                          </html>
